@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "es6",
+        "moduleResolution": "node",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "importHelpers": true,
+        "removeComments": false,
+    },
+    "files": [
+        "src/main.ts",
+        "src/stats.ts",
+        "src/types.d.ts",
+    ],
+}

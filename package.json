@@ -1,12 +1,18 @@
 {
-  "name": "screeps-statsd",
-  "description": "screeps stats in graphite :3",
-  "version": "0.9.13",
+  "name": "screeps-grafana",
+  "description": "Pretty graphs for Screeps stats",
+  "version": "1.0.0",
   "homepage": "https://github.com/screepers/screeps-grafana",
   "author": {
     "name": "Bryan Conrad",
     "email": "bkconrad@gmail.com"
   },
+  "maintainers": [
+    {
+      "name": "Bart Hogenes",
+      "email": "barthogenes@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/screepers/screeps-grafana.git"
@@ -14,40 +20,25 @@
   "bugs": {
     "url": "https://github.com/screepers/screeps-grafana/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/screepers/screeps-grafana/blob/master/LICENSE-MIT"
-    }
-  ],
-  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
   "engines": {
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "grunt test",
-    "start": "coffee index.coffee"
+    "build": "tsc --project tsconfig.json",
+    "postbuild": "docker-compose build",
+    "start": "env-cmd node ./src/main.js"
   },
   "devDependencies": {
-    "coffee-script": "~1.7.0",
-    "grunt": "~0.4.2",
-    "grunt-codo": "~0.1.0",
-    "grunt-coffeelint": "0.0.8",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-coffee": "~0.10.0",
-    "grunt-contrib-uglify": "~0.3.1",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-mocha-cli": "~1.5.0",
-    "load-grunt-tasks": "~0.3.0",
-    "node-statsd": "^0.1.1",
-    "request-debug": "^0.2.0",
-    "should": "~3.1.0"
+    "@types/node": "^15.12.5",
+    "@types/screeps": "^3.2.2"
   },
   "keywords": [],
   "dependencies": {
-    "coffee": "^3.0.3",
-    "node-statsd": "^0.1.1",
-    "request-promise": "^2.0.0",
-    "sleep": "^3.0.0"
+    "env-cmd": "^10.1.0",
+    "hot-shots": "^8.3.2",
+    "screeps-api": "^1.16.0",
+    "tslib": "^2.3.0"
   }
 }
