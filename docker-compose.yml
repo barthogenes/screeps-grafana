@@ -1,48 +1,28 @@
-version: "2"
-volumes:
-  graphite_data:
-  grafana_data:
+version: "3.9"
 services:
   node:
-    build:
-        context: .
-        dockerfile: Dockerfile
-    restart: always
-    links:
-     - statsd
-    environment:
-      GRAPHITE_PORT_8125_UDP_ADDR: "statsd"
-    env_file: docker-compose.env
-  statsd:
-    image: ennexa/statsd
-    links: 
-     - graphite
-  graphite: 
-    image: ennexa/graphite
-    restart: always
+    # Build the Dockerfile in this directory.
+    build: .
+    # In case of a crash, restart this service.
+    restart: unless-stopped
+    # Start this service after the graphite service was started.
+    depends_on:
+      - "graphite"
+  graphite:
+    image: graphiteapp/graphite-statsd
+    restart: unless-stopped
     volumes:
-     - /opt/graphite/conf
-     - graphite_data:/opt/graphite/storage/whisper
+      - ./volumes/graphite/configs:/opt/graphite/conf
+      - ./volumes/graphite/data:/opt/graphite/storage
+      - ./volumes/statsd_config:/opt/statsd/config
+    ports:
+      # Port for sending data to StatsD.
+      - "8125:8125/udp"
+      # Port for viewing Graphite in the browser or to connect to Grafana.
+      - "8080:8080"
   grafana:
     image: grafana/grafana
-    restart: always
-    volumes:
-     - grafana_data:/var/lib/grafana
-    links:
-     - graphite
+    restart: unless-stopped
     ports:
-     - "1337:3000"
-  # grafana_setup_datasource:
-  #   image: appropriate/curl
-  #   links:
-  #    - grafana
-  #   command: |
-  #     curl 'http://admin:admin@grafana:3000/api/datasources' -X POST -H 'Content-Type: application/json;charset=UTF-8' --data-binary '{"name":"localGraphite","type":"graphite","url":"http://graphite:8000","access":"proxy","isDefault":true,"database":""}'
-  # grafana_setup_sampledashboard:
-  #   image: appropriate/curl
-  #   links:
-  #    - grafana
-  #   volumes:
-  #     - ./sampleDashboard.json:/sampleDashboard.json
-  #   command: |
-  #     curl 'http://admin:admin@grafana:3000/api/dashboards/db' -X POST -H 'Content-Type: application/json;charset=UTF-8' --data @/sampleDashboard.json 
+      - "3000:3000"
+
