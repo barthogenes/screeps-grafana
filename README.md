@@ -1,3 +1,8 @@
+[![docker node](https://img.shields.io/docker/v/_/node/latest?label=docker%20node)](https://hub.docker.com/_/node)
+[![docker graphite-statsd](https://img.shields.io/docker/v/graphiteapp/graphite-statsd/latest?label=docker%20graphite-statsd)](https://hub.docker.com/r/graphiteapp/graphite-statsd)
+[![docker grafana](https://img.shields.io/docker/v/grafana/grafana/latest?label=docker%20grafana)](https://hub.docker.com/r/grafana/grafana)
+![GitHub](https://img.shields.io/github/license/barthogenes/screeps-grafana)
+
 # screeps-grafana
 
 Pretty graphs for Screeps stats. 
